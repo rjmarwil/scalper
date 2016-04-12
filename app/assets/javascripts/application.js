@@ -14,3 +14,25 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+var xmlhttp = new XMLHttpRequest();
+var url = "https://api.seatgeek.com/2/events/3044706";
+
+xmlhttp.onreadystatechange = function() {
+  if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+    var info = JSON.parse(xmlhttp.responseText);
+    var history = [];
+    var call = {};
+
+    call.date = new Date(info.datetime_local);
+    call.listing_count = info.stats.listing_count;
+    call.average_price = info.stats.average_price;
+    call.lowest_price = info.stats.lowest_price;
+    call.highest_price = info.stats.highest_price;
+
+    history.push(call);
+  }
+};
+
+xmlhttp.open("GET", url, true);
+xmlhttp.send();
